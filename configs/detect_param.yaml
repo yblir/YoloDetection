@@ -1,0 +1,44 @@
+# 数据路径相关==============================
+classes_path: config/voc_classes.txt
+train_ann_path: config/2007_train.txt
+val_ann_path: config/2007_val.txt
+input_shape: [ 640,640 ]
+# ========================================
+
+# 可选:None,cpu. 为None时,自动搜索设备,优先使用gpu
+is_cuda: None
+# 网络结构选择==============================
+# phi只能从nano,tiny,s,m,l,x中选择,phi只在cspdarknet中生效,其他backbone不调用
+phi: l
+# depth:调整csp模块bottleneck(残差块)数量, width:调整所有卷积层通道数, 此处None为占位符,
+# 具体值在yolo_util.transfer根据l重新赋值
+depth: None
+width: None
+# depth_wise,是否使用深度可分离卷积,也由phi决定,此处仅占位
+depth_wise: None
+activation: silu
+
+# **********************************************************
+# backbone可选项:csp_darknet,darknet
+# neck可选项:pa_fpn,      ,  head可选项:decoupled_head
+backbone: darknet
+neck: pa_fpn
+head: decoupled_head
+# **********************************************************
+
+
+# 是否使用预训练模型
+resume: True
+model_path: weights/yolox_s.pth
+
+# 模型训练相关
+batch_sz: 4
+
+# 模型结构相关===============================
+# 指定模型规格,l是正常模型大小
+mosaic: False
+cosine: False
+num_classes: None   # 占位符,在yolo_utils.transfer中根据classes类别数量自动重新赋值
+classes: ['per','part','human','animal','tree']
+# ========================================
+
